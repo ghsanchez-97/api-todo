@@ -21,7 +21,8 @@ user.email = params.email;
 user.rol = params.rol;
 user.image = 'null';
 user.datecreat = Date.now();
-user.personcreat = use.name;
+user.datedel = null
+// user.personcreat = use.name;
 
  if(params.password){
    //Encrypt pass and save data
@@ -72,7 +73,9 @@ function getUsers(req, res){
   const page = req.params.page;
   const itemPerPage = 20;
 
-  User.find().sort('firstname').paginate(page, itemPerPage, function(err, user, total){
+  User.find({user: function(){
+    return this.datedel == null
+  }}).sort('firstname').paginate(page, itemPerPage, function(err, user, total){
     if(err){
       res.status(500).send({message:'Error en la solicitud'});
     }else{
@@ -186,7 +189,7 @@ function deleteUser(req, res){
   update.datedel = Date.now();
   update.persondel = user.name;
 
-  User.findByIdAndRemove(userId, update, (err, userUpdate) =>{
+  User.findByIdAndUpdate(userId, update, (err, userUpdate) =>{
     if(err){
       res.status(500).send({message:'Error en la solicitud'});
     }else{
