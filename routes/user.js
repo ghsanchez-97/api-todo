@@ -8,7 +8,7 @@ const md_auth = require('../middlewares/authenticated');
 const multipart = require('connect-multiparty');
 const md_upload = multipart({uploadDir: './uploads/user'});
 
-api.post('/register', md_auth.ensureAuth, UserController.saveUser);
+api.post('/register', UserController.saveUser);
 api.delete('/deleteuser/:id', md_auth.ensureAuth, UserController.deleteUser);
 api.put('/updateUser/:id', md_auth.ensureAuth, UserController.updateUser);
 api.get('/getUser/:id', md_auth.ensureAuth, UserController.getUser);

@@ -8,6 +8,7 @@ const http = require('http');
 const app = express();
 
 //LOAD RUTS
+let user_routes = require('./routes/user')
 
 app.use(bodyparse.urlencoded({extended:false}));
 app.use(bodyparse.json());
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 });
 
 //Ruts Base
+app.use('/api', user_routes);
 
 
 module.exports = app;
