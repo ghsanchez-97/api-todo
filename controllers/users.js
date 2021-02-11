@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path')
 const mongoosePagination = require('mongoose-pagination');
 const auth = require('../middlewares/authenticated');
+const { $where } = require('../models/user');
 
 function saveUser(req, res){
 const user = new User();
@@ -73,8 +74,8 @@ function getUsers(req, res){
   const page = req.params.page;
   const itemPerPage = 20;
 
-  User.find({user: function(){
-    return this.datedel == null
+  User.find({$where : function(){
+    return (this.datedel == null)
   }}).sort('firstname').paginate(page, itemPerPage, function(err, user, total){
     if(err){
       res.status(500).send({message:'Error en la solicitud'});
